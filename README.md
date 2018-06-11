@@ -34,17 +34,19 @@ $#. docker run --init --device /dev/fuse --tmpfs /run --tmpfs /tmp \
       -e SABAYON_MOLECULES_CHROOTS=/chroots \
       -e SABAYON_MOLECULES_SOURCES=/sources \
       -e SABAYON_MOLECULES_ISO=/iso \
-      sabayon/isobuilder-amd64
+      sabayon/isobuilder-amd64 \
+      daily --skip-email --stdout --image server --skip-docker-rmi
 
 ```
 
-On example it is overrided default chroots and sources directory for use disk with more
+On example it is override default chroots and sources directory for use disk with more
 space.
 
 ISOs will be available on /sabayon/iso host directory.
 
 
 | Env Variable | Default | Description |
+|--------------|---------|-------------|
 | SABAYON_MOLECULES_GITURL | https://github.com/Sabayon/molecules.git | Git Repository of Sabayon Molecules configurations. |
 | SABAYON_MOLECULES_GIT_OPTS | - | Permit to define additional git clone options, like use a specific branch. |
 | SABAYON_MOLECULES_DIR | /sabayon | Molecule work directory |
