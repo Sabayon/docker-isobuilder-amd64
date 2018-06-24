@@ -11,7 +11,7 @@ Image has two mode:
 
 
   * Normal Mode: when SABAYON_MOLECULES_SYSTEMD_MODE is equal to 0 container
-    use Docker Host service. This require volume
+    use Docker Host service. This require volume for access to host docker socket.
 
 
 ## Usage
@@ -44,6 +44,7 @@ space.
 
 ISOs will be available on /sabayon/iso host directory.
 
+## Variables
 
 | Env Variable | Default | Description |
 |--------------|---------|-------------|
