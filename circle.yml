@@ -1,0 +1,18 @@
+machine:
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker info
+    - docker build -t sabayon/isobuilder-amd64 .
+test:
+  override:
+    - docker run sabayon/isobuilder-amd64 --help || true
+deployment:
+  hub:
+    branch: master
+    commands:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push sabayon/isobuilder-amd64
+
