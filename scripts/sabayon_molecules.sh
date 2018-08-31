@@ -10,6 +10,9 @@ SABAYON_MOLECULES_ISO=${SABAYON_MOLECULES_ISO:-}
 SABAYON_MOLECULES_ENVFILE=${SABAYON_MOLECULES_ENVFILE:-$(pwd)/confs/iso_build.env}
 SABAYON_MOLECULES_SYSTEMD_MODE=${SABAYON_MOLECULES_SYSTEMD_MODE:-0}
 SABAYON_MOLECULES_POSTSCRIPT=${SABAYON_MOLECULES_POSTSCRIPT:-}
+SABAYON_MOLECULES_JOURNAL_NLOG=${SABAYON_MOLECULES_JOURNAL_NLOG:-10}
+SABAYON_MOLECULES_SYSTEMD_SLEEP=${SABAYON_MOLECULES_SYSTEMD_SLEEP:-5}
+SABAYON_MOLECULES_SCRIPT=${SABAYON_MOLECULES_SCRIPT:-${SABAYON_MOLECULES_DIR}/scripts/sabayon_iso_build.sh}
 
 sabayon_molecules_info () {
 
@@ -29,6 +32,7 @@ SABAYON_MOLECULES_SYSTEMD_MODE = ${SABAYON_MOLECULES_SYSTEMD_MODE}
 SABAYON_MOLECULES_ISO          = ${SABAYON_MOLECULES_ISO}
 SABAYON_MOLECULES_CHROOTS      = ${SABAYON_MOLECULES_CHROOTS}
 SABAYON_MOLECULES_SOURCES      = ${SABAYON_MOLECULES_SOURCES}
+SABAYON_MOLECULES_SCRIPT       = ${SABAYON_MOLECULES_SCRIPT}
 ${info_args}
 "
   return 0
@@ -167,8 +171,8 @@ sabayon_molecules_run () {
     sabayon_molecules_echo "Starting SYSTEMD"
     exec /sbin/init --system --show-status=true &
 
-    sabayon_molecules_echo "Waiting for systemd starting...sleep 5"
-    sleep 5
+    sabayon_molecules_echo "Waiting for systemd starting...sleep ${SABAYON_MOLECULES_SYSTEMD_SLEEP}"
+    sleep ${SABAYON_MOLECULES_SYSTEMD_SLEEP}
 
     sabayon_molecules_echo "FAILED SYSTEMD SERVICES"
     $systemctl --failed || return 1
@@ -177,7 +181,7 @@ sabayon_molecules_run () {
     $systemctl status || return 1
 
     sabayon_molecules_echo "JOURNALCTL BOOTSTRAP LOG"
-    $journaltcl -b --no-pager
+    $journaltcl -b --no-pager -n ${SABAYON_JOURNAL_NLOG}
   fi
 
   sabayon_molecules_echo \
@@ -225,8 +229,8 @@ sabayon_molecules_run () {
 
   local date_end=""
   local date_start=$(date +%s)
-  sabayon_molecules_echo "START iso_build.sh script."
-  ${SABAYON_MOLECULES_DIR}/scripts/iso_build.sh $@ || return 1
+  sabayon_molecules_echo "STARTING ${SABAYON_MOLECULES_SCRIPT} script."
+  ${SABAYON_MOLECULES_SCRIPT} $@ || return 1
   date_end=$(date +%s)
   sabayon_molecules_echo \
     "END iso_build.sh script. Build process time: $((${date_end} - ${date_start})) secs."
