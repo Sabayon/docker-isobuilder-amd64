@@ -190,7 +190,7 @@ sabayon_molecules_run () {
     ${SABAYON_MOLECULES_DIR} || return 1
 
   # TODO: Fix this on molecules tree
-  mkdir ${SABAYON_MOLECULES_DIR}/iso
+  [ ! -d "${SABAYON_MOLECULES_DIR}/iso" ] && mkdir ${SABAYON_MOLECULES_DIR}/iso
 
   echo "Repository ${SABAYON_MOLECULES_GITURL} installed correctly."
 
