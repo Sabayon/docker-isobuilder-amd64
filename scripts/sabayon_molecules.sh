@@ -49,6 +49,7 @@ PACKAGES_TO_ADD=(
   "app-emulation/docker-companion"
   "sys-process/tini"
   # For isohybrid
+  "sys-fs/udftools"
   "sys-boot/syslinux"
 )
 
