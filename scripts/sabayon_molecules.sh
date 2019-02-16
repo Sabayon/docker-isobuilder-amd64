@@ -55,6 +55,7 @@ PACKAGES_TO_ADD=(
 
 FILES_TO_REMOVE=(
    "/etc/entropy/packages/license.accept"
+   "/sabayon"
 )
 
 sabayon_init_env () {
