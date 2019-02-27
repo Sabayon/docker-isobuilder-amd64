@@ -185,11 +185,13 @@ sabayon_molecules_run () {
     sabayon_molecules_echo "JOURNALCTL BOOTSTRAP LOG"
     $journaltcl -b --no-pager -n ${SABAYON_JOURNAL_NLOG}
   fi
-
-  sabayon_molecules_echo \
-    "Clone repository ${SABAYON_MOLECULES_GITURL} to ${SABAYON_MOLECULES_DIR}"
-  git clone ${SABAYON_MOLECULES_GITURL} ${SABAYON_MOLECULES_GIT_OPTS} \
-    ${SABAYON_MOLECULES_DIR} || return 1
+  
+  if [ -n "${SABAYON_MOLECULES_GITURL}" ] ; then
+    sabayon_molecules_echo \
+      "Clone repository ${SABAYON_MOLECULES_GITURL} to ${SABAYON_MOLECULES_DIR}"
+    git clone ${SABAYON_MOLECULES_GITURL} ${SABAYON_MOLECULES_GIT_OPTS} \
+      ${SABAYON_MOLECULES_DIR} || return 1
+   fi
 
   # TODO: Fix this on molecules tree
   [ ! -d "${SABAYON_MOLECULES_DIR}/iso" ] && mkdir ${SABAYON_MOLECULES_DIR}/iso
