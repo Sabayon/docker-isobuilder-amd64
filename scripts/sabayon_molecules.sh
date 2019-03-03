@@ -52,6 +52,9 @@ PACKAGES_TO_ADD=(
   # For isohybrid
   "sys-fs/udftools"
   "sys-boot/syslinux"
+  # SecureBoot
+  "app-crypt/sbsigntools"
+  "app-crypt/shim-signed"
 )
 
 FILES_TO_REMOVE=(
