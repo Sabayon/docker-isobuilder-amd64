@@ -14,6 +14,9 @@ SABAYON_MOLECULES_POSTSCRIPT=${SABAYON_MOLECULES_POSTSCRIPT:-}
 SABAYON_MOLECULES_JOURNAL_NLOG=${SABAYON_MOLECULES_JOURNAL_NLOG:-10}
 SABAYON_MOLECULES_SYSTEMD_SLEEP=${SABAYON_MOLECULES_SYSTEMD_SLEEP:-5}
 SABAYON_MOLECULES_SCRIPT=${SABAYON_MOLECULES_SCRIPT:-${SABAYON_MOLECULES_DIR}/scripts/sabayon_iso_build.sh}
+SABAYON_MOLECULES_TORRENT_SCRIPT=${SABAYON_MOLECULES_TORRENT_SCRIPT:-${SABAYON_MOLECULES_TORRENT_SCRIPT}/scripts/make_torrents.sh}
+# Build torrent files (1) or not (0)
+SABAYON_MOLECULES_TORRENT=${SABAYON_MOLECULES_TORRENT:-0}
 
 sabayon_molecules_info () {
 
@@ -248,6 +251,10 @@ sabayon_molecules_run () {
   date_end=$(date +%s)
   sabayon_molecules_echo \
     "END iso_build.sh script. Build process time: $((${date_end} - ${date_start})) secs."
+
+  if [ "${SABAYON_MOLECULES_TORRENT}" = 1 ] ; then
+    ${SABAYON_MOLECULES_TORRENT_SCRIPT} || return 1
+  fi
 
   if [ -e "${SABAYON_MOLECULES_POSTSCRIPT}" ] ; then
     echo "Sourcing POST script file ${SABAYON_MOLECULES_POSTSCRIPT}..."
