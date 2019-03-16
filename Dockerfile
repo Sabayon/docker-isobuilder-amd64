@@ -6,7 +6,7 @@ ARG CUSTOM_IMAGE_PREFIX=
 ARG TARGET_ARCH=amd64
 FROM ${USER}/${CUSTOM_IMAGE_PREFIX}base-${TARGET_ARCH}
 
-MAINTAINER geaaru <geaaru@sabayonlinux.org>
+LABEL maintainer="Daniele Rondina <geaaru@sabayonlinux.org>"
 
 # Add sabayon-stuff files
 ADD ./scripts/sabayon_molecules.sh /sabayon_molecules.sh
