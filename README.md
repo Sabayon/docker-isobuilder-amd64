@@ -56,5 +56,6 @@ ISOs will be available on /sabayon/iso host directory.
 | SABAYON_MOLECULES_ISO | - | If present permit to mount in binding selected path to molecules iso directory |
 | SABAYON_MOLECULES_ENVFILE | $(pwd)/confs/iso_build.env | Optional file to sources for override environment variables. |
 | SABAYON_MOLECULES_SYSTEMD_MODE | 0 | Enable SystemD Mode (1) or not (0).
-| SABAYON_MOLECULES_POSTSCRIPT | - | Define post script to execute. |
+| SABAYON_MOLECULES_POSTSCRIPT | - | Define post script to source. |
+| SABAYON_MOLECULES_PRESCRIPT | - | Define pre script to source before ISOs creation. |
 
