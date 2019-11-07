@@ -11,6 +11,7 @@ SABAYON_MOLECULES_ENVFILE=${SABAYON_MOLECULES_ENVFILE:-$(pwd)/confs/iso_build.en
 SABAYON_MOLECULES_SECUREBOOT_PRIVKEY=${SABAYON_MOLECULES_SECUREBOOT_PRIVKEY:-$(pwd)/confs/private.key}
 SABAYON_MOLECULES_SYSTEMD_MODE=${SABAYON_MOLECULES_SYSTEMD_MODE:-0}
 SABAYON_MOLECULES_POSTSCRIPT=${SABAYON_MOLECULES_POSTSCRIPT:-}
+SABAYON_MOLECULES_PRESCRIPT=${SABAYON_MOLECULES_PRESCRIPT:-}
 SABAYON_MOLECULES_JOURNAL_NLOG=${SABAYON_MOLECULES_JOURNAL_NLOG:-10}
 SABAYON_MOLECULES_SYSTEMD_SLEEP=${SABAYON_MOLECULES_SYSTEMD_SLEEP:-5}
 SABAYON_MOLECULES_SCRIPT=${SABAYON_MOLECULES_SCRIPT:-${SABAYON_MOLECULES_DIR}/scripts/sabayon_iso_build.sh}
@@ -194,7 +195,7 @@ sabayon_molecules_run () {
     sabayon_molecules_echo "JOURNALCTL BOOTSTRAP LOG"
     $journaltcl -b --no-pager -n ${SABAYON_JOURNAL_NLOG}
   fi
-  
+
   if [ -n "${SABAYON_MOLECULES_GITURL}" ] ; then
     sabayon_molecules_echo \
       "Clone repository ${SABAYON_MOLECULES_GITURL} to ${SABAYON_MOLECULES_DIR}"
@@ -207,7 +208,7 @@ sabayon_molecules_run () {
     echo "Copying ${SABAYON_MOLECULES_SECUREBOOT_PRIVKEY}..."
     cp -rfv ${SABAYON_MOLECULES_SECUREBOOT_PRIVKEY}  ${SABAYON_MOLECULES_DIR}/boot/shim-uefi-secure-boot/
   fi
-  
+
   # TODO: Fix this on molecules tree
   [ ! -d "${SABAYON_MOLECULES_DIR}/iso" ] && mkdir ${SABAYON_MOLECULES_DIR}/iso
 
@@ -245,6 +246,11 @@ sabayon_molecules_run () {
 # -e SABAYON_MOLECULES_SOURCES=/sources
 # -e SABAYON_MOLECULES_ISO=/iso 
 # sabayon/isobuilder-amd64
+
+  if [ -e "${SABAYON_MOLECULES_PRESCRIPT}" ] ; then
+    echo "Sourcing PRE script file ${SABAYON_MOLECULES_PRESCRIPT}..."
+    source ${SABAYON_MOLECULES_PRESCRIPT}
+  fi
 
   local date_end=""
   local date_start=$(date +%s)
